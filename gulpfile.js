@@ -69,7 +69,7 @@ gulp.task(
         
         // inject nav partials contents into index.html file
         .pipe(
-          inject(gulp.src(["./src/partials/nav.hbs"]), {
+          inject(gulp.src(["./src/partials/nav.html"]), {
             starttag: "<!-- inject:nav:html -->",
             transform: function (filePath, file) {
               // return file contents as string
@@ -127,7 +127,7 @@ gulp.task(
           )
           // inject nav partials contents into index.html file
           .pipe(
-            inject(gulp.src(["./src/partials/nav.hbs"]), {
+            inject(gulp.src(["./src/partials/nav.html"]), {
               starttag: "<!-- inject:nav:html -->",
               transform: function (filePath, file) {
                 // return file contents as string
@@ -175,7 +175,7 @@ gulp.task(
         )
         // inject nav partials contents into index.html file
         .pipe(
-          inject(gulp.src(["./src/partials/nav.hbs"]), {
+          inject(gulp.src(["./src/partials/nav.html"]), {
             starttag: "<!-- inject:nav:html -->",
             transform: function (filePath, file) {
               // return file contents as string
@@ -185,7 +185,7 @@ gulp.task(
         )
         // inject nav partials contents into index.html file
         .pipe(
-          inject(gulp.src(["./src/partials/modal.hbs"]), {
+          inject(gulp.src(["./src/partials/modal.html"]), {
             starttag: "<!-- inject:modal:html -->",
             transform: function (filePath, file) {
               // return file contents as string
@@ -234,7 +234,7 @@ gulp.task("build:dev", function () {
       )
       // inject nav partials contents into index.html file
       .pipe(
-        inject(gulp.src(["./src/partials/nav.hbs"]), {
+        inject(gulp.src(["./src/partials/nav.html"]), {
           starttag: "<!-- inject:nav:html -->",
           transform: function (filePath, file) {
             // return file contents as string
@@ -244,7 +244,7 @@ gulp.task("build:dev", function () {
       )
       // inject nav partials contents into index.html file
       .pipe(
-        inject(gulp.src(["./src/partials/modal.hbs"]), {
+        inject(gulp.src(["./src/partials/modal.html"]), {
           starttag: "<!-- inject:modal:html -->",
           transform: function (filePath, file) {
             // return file contents as string

@@ -1,23 +1,14 @@
-// main.js
-
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
-// const Dexie = require('dexie')
-
-// let database = new Dexie('PanelKiosk');
-// database.version(1).stores({    
-//     tracking: '++id, page, timestamp, status, notes'
-// });
-
 let win;
 
 const createWindow = () => {
   // Create the browser window.
   win = new BrowserWindow({
-    // width: 1024,
-    // height: 768,
-    fullscreen: true,
+    width: 1024,
+    height: 768,
+    // fullscreen: true,
     webPreferences: {
         nodeIntegration: false, // is default value after Electron v5
         // contextIsolation: true, // protect against prototype pollution
@@ -56,8 +47,6 @@ app.on('window-all-closed', () => {
 
 ipcMain.on("toMain", (event, args) => {
     console.log(args);
-    // database.tracking.add(args);
-    // console.log(database.tracking);
     // fs.readFile("path/to/file", (error, data) => {
     //     // Do something with file contents
 
