@@ -1,0 +1,73 @@
+{
+  "name": "magick-kiosk",
+  "version": "1.0.0",
+  "description": "Electron Panel Kiosk",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "dev": "gulp build:dev && gulp build-admin:dev && electron .",
+    "build": "gulp build:prod && gulp build-admin:prod && electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "keywords": [
+    "Electron",
+    "Panel",
+    "Kiosk",
+    "Convention",
+    "Interactive"
+  ],
+  "author": "Justin Riggio",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "electron": "^18.0.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-compile-handlebars": "^0.6.1",
+    "gulp-inject": "^5.0.5",
+    "gulp-print": "^5.0.2",
+    "gulp-rename": "^2.0.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.3.0",
+    "gulp-csso": "^4.0.1",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-uglify": "^3.0.2"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "assets/icon.icns"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "magick_kiosk"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
+}
