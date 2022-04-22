@@ -1,5 +1,5 @@
 {
-  "name": "magick-kiosk",
+  "name": "magick-window",
   "version": "1.0.0",
   "description": "Electron Panel Kiosk",
   "main": "main.js",
