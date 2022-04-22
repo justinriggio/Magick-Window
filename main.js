@@ -1,14 +1,128 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('path')
 let win;
+let adminWin;
+const isMac = process.platform === 'darwin'
+
+const template = [
+  // { role: 'appMenu' }
+  ...(isMac ? [{
+    label: app.name,
+    submenu: [
+      { role: 'about' },
+      { type: 'separator' },
+      { role: 'services' },
+      { type: 'separator' },
+      { role: 'hide' },
+      { role: 'hideOthers' },
+      { role: 'unhide' },
+      { type: 'separator' },
+      { role: 'quit' }
+    ]
+  }] : []),
+  // { role: 'fileMenu' }
+  {
+    label: 'File',
+    submenu: [
+      isMac ? { role: 'close' } : { role: 'quit' }
+    ]
+  },
+  // { role: 'editMenu' }
+  {
+    label: 'Edit',
+    submenu: [
+      { role: 'undo' },
+      { role: 'redo' },
+      { type: 'separator' },
+      { role: 'cut' },
+      { role: 'copy' },
+      { role: 'paste' },
+      ...(isMac ? [
+        { role: 'pasteAndMatchStyle' },
+        { role: 'delete' },
+        { role: 'selectAll' },
+        { type: 'separator' },
+        {
+          label: 'Speech',
+          submenu: [
+            { role: 'startSpeaking' },
+            { role: 'stopSpeaking' }
+          ]
+        }
+      ] : [
+        { role: 'delete' },
+        { type: 'separator' },
+        { role: 'selectAll' }
+      ])
+    ]
+  },
+  // { role: 'viewMenu' }
+  {
+    label: 'View',
+    submenu: [
+      { role: 'reload' },
+      { role: 'forceReload' },
+      { role: 'toggleDevTools' },
+      { type: 'separator' },
+      { role: 'resetZoom' },
+      { role: 'zoomIn' },
+      { role: 'zoomOut' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' }
+    ]
+  },
+  // { role: 'windowMenu' }
+  {
+    label: 'Window',
+    submenu: [
+      { role: 'minimize' },
+      { role: 'zoom' },
+      ...(isMac ? [
+        { type: 'separator' },
+        { role: 'front' },
+        { type: 'separator' },
+        { role: 'window' }
+      ] : [
+        { role: 'close' }
+      ])
+    ]
+  },
+  {
+    label: 'Analytics',
+    submenu: [
+      {
+        label: 'Open Analytics Window',
+        click () {
+          console.log('👋');
+          createAdminWindow();
+        }
+      }
+    ]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'Learn More',
+        click: async () => {
+          const { shell } = require('electron')
+          await shell.openExternal('https://electronjs.org')
+        }
+      }
+    ]
+  }
+]
+
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
 
 const createWindow = () => {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1024,
-    height: 768,
-    // fullscreen: true,
+    // width: 1024,
+    // height: 768,
+    fullscreen: true,
     webPreferences: {
         nodeIntegration: false, // is default value after Electron v5
         // contextIsolation: true, // protect against prototype pollution
@@ -23,6 +137,27 @@ const createWindow = () => {
 
   // Open the DevTools.
   // win.webContents.openDevTools()
+}
+
+const createAdminWindow = () => {
+  // Create the browser window.
+  adminWin = new BrowserWindow({
+    width: 1024,
+    height: 768,
+    // fullscreen: true,
+    webPreferences: {
+        nodeIntegration: false, // is default value after Electron v5
+        // contextIsolation: true, // protect against prototype pollution
+        // enableRemoteModule: false, // turn off remote
+        preload: path.join(__dirname, "preload.js") // use a preload script
+    }
+  })
+
+  // and load the index.html of the app.
+  adminWin.loadFile(path.join(__dirname, "dist/admin.html"));
+
+  // Open the DevTools.
+  // adminWin.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
