@@ -39,7 +39,8 @@
     "gulp-cli": "^2.3.0",
     "gulp-csso": "^4.0.1",
     "gulp-htmlmin": "^5.0.1",
-    "gulp-uglify": "^3.0.2"
+    "gulp-uglify": "^3.0.2",
+    "pdfkit": "^0.13.0"
   },
   "config": {
     "forge": {
