@@ -42,15 +42,15 @@ gulp.task("minStyles", function () {
 });
 
 gulp.task(
-  "build-admin:prod",
+  "build-analytics:prod",
   gulp.series("minScripts", "minStyles", function () {
     return (
       gulp
-        .src("./src/admin.html")
+        .src("./src/analytics.html")
         // inject javascript contents into index.html file
         .pipe(
-          inject(gulp.src(["./.tmp/**/admin.js"]), {
-            starttag: "<!-- inject:admin:js -->",
+          inject(gulp.src(["./.tmp/**/analytics.js"]), {
+            starttag: "<!-- inject:analytics:js -->",
             transform: function (filePath, file) {
               // return file contents as string
               return "<script>" + file.contents.toString("utf8") + "</script>";
@@ -79,8 +79,8 @@ gulp.task(
         )
         // inject css contents into index.html file
         .pipe(
-          inject(gulp.src(["./.tmp/**/admin.css"]), {
-            starttag: "<!-- inject:admin:css -->",
+          inject(gulp.src(["./.tmp/**/analytics.css"]), {
+            starttag: "<!-- inject:analytics:css -->",
             transform: function (filePath, file) {
               // return file contents as string
               return "<style>" + file.contents.toString("utf8") + "</style>";
@@ -101,15 +101,15 @@ gulp.task(
 );
 
 gulp.task(
-    "build-admin:dev",
+    "build-analytics:dev",
     gulp.series( function () {
       return (
         gulp
-          .src("./src/admin.html")
+          .src("./src/analytics.html")
           // inject javascript contents into index.html file
           .pipe(
-            inject(gulp.src(["./src/**/admin.js"]), {
-              starttag: "<!-- inject:admin:js -->",
+            inject(gulp.src(["./src/**/analytics.js"]), {
+              starttag: "<!-- inject:analytics:js -->",
               transform: function (filePath, file) {
                 // return file contents as string
                 return "<script>" + file.contents.toString("utf8") + "</script>";
@@ -137,14 +137,62 @@ gulp.task(
           )
           // inject css contents into index.html file
           .pipe(
-            inject(gulp.src(["./src/**/admin.css"]), {
-              starttag: "<!-- inject:admin:css -->",
+            inject(gulp.src(["./src/**/analytics.css"]), {
+              starttag: "<!-- inject:analytics:css -->",
               transform: function (filePath, file) {
                 // return file contents as string
                 return "<style>" + file.contents.toString("utf8") + "</style>";
               }, // end transform
             })
           )
+          .pipe(
+            print(function (file) {
+              return "injecting " + file;
+            })
+          )
+  
+          .pipe(gulp.dest("./dist"))
+      );
+    })
+  );
+
+
+  gulp.task(
+    "build-dashboard:dev",
+    gulp.series( function () {
+      return (
+        gulp
+          .src("./src/dashboard.html")
+          // inject javascript contents into index.html file
+          .pipe(
+            inject(gulp.src(["./src/**/chart.min.js"]), {
+              starttag: "<!-- inject:chart:js -->",
+              transform: function (filePath, file) {
+                // return file contents as string
+                return "<script>" + file.contents.toString("utf8") + "</script>";
+              }, // end transform
+            })
+          )
+          .pipe(
+            inject(gulp.src(["./src/**/dexie.js"]), {
+              starttag: "<!-- inject:dexie:js -->",
+              transform: function (filePath, file) {
+                // return file contents as string
+                return "<script>" + file.contents.toString("utf8") + "</script>";
+              }, // end transform
+            })
+          )
+          
+          // inject css contents into index.html file
+          // .pipe(
+          //   inject(gulp.src(["./src/**/analytics.css"]), {
+          //     starttag: "<!-- inject:analytics:css -->",
+          //     transform: function (filePath, file) {
+          //       // return file contents as string
+          //       return "<style>" + file.contents.toString("utf8") + "</style>";
+          //     }, // end transform
+          //   })
+          // )
           .pipe(
             print(function (file) {
               return "injecting " + file;
@@ -165,7 +213,7 @@ gulp.task(
         .src("./src/*.html")
         // inject javascript contents into index.html file
         .pipe(
-          inject(gulp.src(["./.tmp/**/*.js", "!./.tmp/**/admin.js"]), {
+          inject(gulp.src(["./.tmp/**/*.js", "!./.tmp/**/analytics.js"]), {
             starttag: "<!-- inject:js:js -->",
             transform: function (filePath, file) {
               // return file contents as string
@@ -196,7 +244,7 @@ gulp.task(
 
         // inject css contents into index.html file
         .pipe(
-          inject(gulp.src(["./.tmp/**/*.css", "!./.tmp/**/admin.css"]), {
+          inject(gulp.src(["./.tmp/**/*.css", "!./.tmp/**/analytics.css"]), {
             starttag: "<!-- inject:css:css -->",
             transform: function (filePath, file) {
               // return file contents as string
@@ -224,7 +272,7 @@ gulp.task("build:dev", function () {
       .src("./src/*.html")
       // inject javascript contents into index.html file
       .pipe(
-        inject(gulp.src(["./src/**/*.js", "!./src/**/admin.js"]), {
+        inject(gulp.src(["./src/**/*.js", "!./src/**/analytics.js"]), {
           starttag: "<!-- inject:js:js -->",
           transform: function (filePath, file) {
             // return file contents as string
@@ -255,7 +303,7 @@ gulp.task("build:dev", function () {
 
       // inject css contents into index.html file
       .pipe(
-        inject(gulp.src(["./src/**/*.css", "!./src/**/admin.css"]), {
+        inject(gulp.src(["./src/**/*.css", "!./src/**/analytics.css"]), {
           starttag: "<!-- inject:css:css -->",
           transform: function (filePath, file) {
             // return file contents as string

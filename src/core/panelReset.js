@@ -39,7 +39,7 @@ var inactivityTime = function () {
         }, 1000);
     }
 
-    if (document.title !== "Admin")  {   // if not on home page
+    if (document.title !== "analytics")  {   // if not on home page
         // Get the <span> element that closes the modal
         span = document.getElementsByClassName("close")[0];
         span.onclick = function() {

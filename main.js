@@ -5,7 +5,8 @@ const fs = require("fs");
 const PDFDocument = require("pdfkit");
 
 let win;
-let adminWin;
+let analyticsWin;
+let dashboard;
 const isMac = process.platform === "darwin";
 const pdf = new PDFDocument();
 const date = new Date();
@@ -140,7 +141,14 @@ const template = [
         label: "Open Analytics Window",
         click() {
           console.log("👋");
-          createAdminWindow();
+          createanalyticsWindow();
+        },
+      },
+      {
+        label: "Open Dashboard",
+        click() {
+          console.log("👋");
+          createDashboardWindow();
         },
       },
     ],
@@ -184,9 +192,9 @@ const createWindow = () => {
   // win.webContents.openDevTools()
 };
 
-const createAdminWindow = () => {
+const createanalyticsWindow = () => {
   // Create the browser window.
-  adminWin = new BrowserWindow({
+  analyticsWin = new BrowserWindow({
     width: 1024,
     height: 768,
     // fullscreen: true,
@@ -199,10 +207,31 @@ const createAdminWindow = () => {
   });
 
   // and load the index.html of the app.
-  adminWin.loadFile(path.join(__dirname, "dist/admin.html"));
+  analyticsWin.loadFile(path.join(__dirname, "dist/analytics.html"));
 
   // Open the DevTools.
-  // adminWin.webContents.openDevTools()
+  // analyticsWin.webContents.openDevTools()
+};
+
+const createDashboardWindow = () => {
+  // Create the browser window.
+  analyticsWin = new BrowserWindow({
+    width: 1024,
+    height: 768,
+    // fullscreen: true,
+    webPreferences: {
+      nodeIntegration: false, // is default value after Electron v5
+      // contextIsolation: true, // protect against prototype pollution
+      // enableRemoteModule: false, // turn off remote
+      preload: path.join(__dirname, "preload.js"), // use a preload script
+    },
+  });
+
+  // and load the index.html of the app.
+  analyticsWin.loadFile(path.join(__dirname, "dist/dashboard.html"));
+
+  // Open the DevTools.
+  // analyticsWin.webContents.openDevTools()
 };
 
 // const screenshot = () => {
