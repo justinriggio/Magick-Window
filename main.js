@@ -5,7 +5,7 @@ const fs = require("fs");
 const PDFDocument = require("pdfkit");
 
 let win;
-let adminWin;
+let analyticsWin;
 let dashboard;
 const isMac = process.platform === "darwin";
 const pdf = new PDFDocument();
@@ -141,7 +141,7 @@ const template = [
         label: "Open Analytics Window",
         click() {
           console.log("👋");
-          createAdminWindow();
+          createanalyticsWindow();
         },
       },
       {
@@ -192,9 +192,9 @@ const createWindow = () => {
   // win.webContents.openDevTools()
 };
 
-const createAdminWindow = () => {
+const createanalyticsWindow = () => {
   // Create the browser window.
-  adminWin = new BrowserWindow({
+  analyticsWin = new BrowserWindow({
     width: 1024,
     height: 768,
     // fullscreen: true,
@@ -207,15 +207,15 @@ const createAdminWindow = () => {
   });
 
   // and load the index.html of the app.
-  adminWin.loadFile(path.join(__dirname, "dist/admin.html"));
+  analyticsWin.loadFile(path.join(__dirname, "dist/analytics.html"));
 
   // Open the DevTools.
-  // adminWin.webContents.openDevTools()
+  // analyticsWin.webContents.openDevTools()
 };
 
 const createDashboardWindow = () => {
   // Create the browser window.
-  adminWin = new BrowserWindow({
+  analyticsWin = new BrowserWindow({
     width: 1024,
     height: 768,
     // fullscreen: true,
@@ -228,10 +228,10 @@ const createDashboardWindow = () => {
   });
 
   // and load the index.html of the app.
-  adminWin.loadFile(path.join(__dirname, "dist/dashboard.html"));
+  analyticsWin.loadFile(path.join(__dirname, "dist/dashboard.html"));
 
   // Open the DevTools.
-  // adminWin.webContents.openDevTools()
+  // analyticsWin.webContents.openDevTools()
 };
 
 // const screenshot = () => {
