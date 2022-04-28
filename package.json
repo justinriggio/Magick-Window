@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
-    "dev": "gulp build:dev && gulp build-admin:dev && electron .",
+    "dev": "gulp build:dev && gulp build-admin:dev && gulp build-dashboard:dev && electron .",
     "build": "gulp build:prod && gulp build-admin:prod && electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",

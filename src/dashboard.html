@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magick Window Dashboard</title>
+</head>
+<style>
+    body {
+        background-color: #e3f2fd;
+    }
+
+    .header {
+        grid-area: header;
+    }
+
+    .doughnut {
+        grid-area: doughnut;
+    }
+
+    .right-area {
+        grid-area: right;
+    }
+
+    .footer {
+        grid-area: footer;
+    }
+
+    .bar {
+        grid-area: bar;
+    }
+
+    .reload {
+        grid-area: reload;
+        width: 100px;
+        height: 50px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        /* grid-template-rows: 1fr 1fr 1fr; */
+        grid-template-areas:
+            "header reload doughnut"
+            "bar bar bar";
+
+    }
+
+    #doughnut-chart-container {
+        width: 400px;
+        height: 200px;
+    }
+
+    #bar-chart-container {
+        width: 100%;
+        height: 400px;
+    }
+    
+
+</style>
+
+<body>
+    <main class="container">
+        <h1 class="header">Magick Window Dashboard</h1>
+        <button class="reload" onclick="location.reload()">Reload</button>
+        <div id="doughnut-chart-container" class="doughnut">
+            <canvas id="doughnutChart" width="100" height="100"></canvas>
+        </div>
+
+        <div id="bar-chart-container" class="bar">
+            <canvas id="barChart" width="100" height="100"></canvas>
+        </div>
+    </main>
+
+    <!-- inject:chart:js -->
+    <!-- endinject -->
+
+    <!-- inject:dexie:js -->
+    <!-- endinject -->
+
+    <script>
+        let db = new Dexie("PanelKiosk");
+        db.version(1).stores({
+            tracking: "++id, page, timestamp, status, notes"
+        });
+        console.log(`Dexie database ready`);
+
+        const buildCharts = () => {
+            db.tracking.toArray().then(data => {
+                console.log(`Data: `, data);
+                let pageCount = data.length;
+                let homeCount = data.filter(item => item.page === "Home").length;
+                let page2Count = data.filter(item => item.page === "Page 2").length;
+                let page3Count = data.filter(item => item.page === "Page 3").length;
+                let page4Count = data.filter(item => item.page === "Page 4").length;
+
+                let doughnutChart = document.getElementById("doughnutChart").getContext("2d");
+                let doughnutChartData = {
+                    labels: ["Home", "Page 2", "Page 3", "Page 4"],
+                    datasets: [{
+                        data: [homeCount, page2Count, page3Count, page4Count],
+                        backgroundColor: [
+                            'rgba(13, 71, 161, 1)',
+                            'rgba(25, 118, 210, 1)',
+                            'rgba(66, 165, 245, 1)',
+                            'rgba(187, 222, 251, 1)'
+                        ],
+                        hoverBackgroundColor: [
+                            'rgba(13, 71, 161, 1)',
+                            'rgba(25, 118, 210, 1)',
+                            'rgba(66, 165, 245, 1)',
+                            'rgba(187, 222, 251, 1)'
+                        ]
+                    }]
+                };
+                let doughnutChartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        enabled: false
+                    }
+                };
+                let doughnutChartInstance = new Chart(doughnutChart, {
+                    type: "doughnut",
+                    data: doughnutChartData,
+                    options: doughnutChartOptions
+                });
+
+                let barChart = document.getElementById("barChart").getContext("2d");
+                let barChartData = {
+                    labels: ["Home", "Page 2", "Page 3", "Page 4"],
+                    datasets: [{
+                        label: "Page Count",
+                        data: [homeCount, page2Count, page3Count, page4Count],
+                        backgroundColor: [
+                            'rgba(13, 71, 161, 1)',
+                            'rgba(25, 118, 210, 1)',
+                            'rgba(66, 165, 245, 1)',
+                            'rgba(187, 222, 251, 1)'
+                        ],
+                        hoverBackgroundColor: [
+                            'rgba(13, 71, 161, 1)',
+                            'rgba(25, 118, 210, 1)',
+                            'rgba(66, 165, 245, 1)',
+                            'rgba(187, 222, 251, 1)'
+                        ]
+                    }]
+                };
+                let barChartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        enabled: false
+                    }
+                };
+                let barChartInstance = new Chart(barChart, {
+                    type: "bar",
+                    data: barChartData,
+                    options: barChartOptions
+                });
+            });
+        };
+
+        buildCharts();
+
+    </script>
+
+</body>
+
+</html>

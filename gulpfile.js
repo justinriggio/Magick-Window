@@ -156,6 +156,54 @@ gulp.task(
     })
   );
 
+
+  gulp.task(
+    "build-dashboard:dev",
+    gulp.series( function () {
+      return (
+        gulp
+          .src("./src/dashboard.html")
+          // inject javascript contents into index.html file
+          .pipe(
+            inject(gulp.src(["./src/**/chart.min.js"]), {
+              starttag: "<!-- inject:chart:js -->",
+              transform: function (filePath, file) {
+                // return file contents as string
+                return "<script>" + file.contents.toString("utf8") + "</script>";
+              }, // end transform
+            })
+          )
+          .pipe(
+            inject(gulp.src(["./src/**/dexie.js"]), {
+              starttag: "<!-- inject:dexie:js -->",
+              transform: function (filePath, file) {
+                // return file contents as string
+                return "<script>" + file.contents.toString("utf8") + "</script>";
+              }, // end transform
+            })
+          )
+          
+          // inject css contents into index.html file
+          // .pipe(
+          //   inject(gulp.src(["./src/**/admin.css"]), {
+          //     starttag: "<!-- inject:admin:css -->",
+          //     transform: function (filePath, file) {
+          //       // return file contents as string
+          //       return "<style>" + file.contents.toString("utf8") + "</style>";
+          //     }, // end transform
+          //   })
+          // )
+          .pipe(
+            print(function (file) {
+              return "injecting " + file;
+            })
+          )
+  
+          .pipe(gulp.dest("./dist"))
+      );
+    })
+  );
+
 gulp.task(
   "build:prod",
   gulp.series("minScripts", "minStyles", function () {

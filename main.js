@@ -6,6 +6,7 @@ const PDFDocument = require("pdfkit");
 
 let win;
 let adminWin;
+let dashboard;
 const isMac = process.platform === "darwin";
 const pdf = new PDFDocument();
 const date = new Date();
@@ -143,6 +144,13 @@ const template = [
           createAdminWindow();
         },
       },
+      {
+        label: "Open Dashboard",
+        click() {
+          console.log("👋");
+          createDashboardWindow();
+        },
+      },
     ],
   },
   {
@@ -200,6 +208,27 @@ const createAdminWindow = () => {
 
   // and load the index.html of the app.
   adminWin.loadFile(path.join(__dirname, "dist/admin.html"));
+
+  // Open the DevTools.
+  // adminWin.webContents.openDevTools()
+};
+
+const createDashboardWindow = () => {
+  // Create the browser window.
+  adminWin = new BrowserWindow({
+    width: 1024,
+    height: 768,
+    // fullscreen: true,
+    webPreferences: {
+      nodeIntegration: false, // is default value after Electron v5
+      // contextIsolation: true, // protect against prototype pollution
+      // enableRemoteModule: false, // turn off remote
+      preload: path.join(__dirname, "preload.js"), // use a preload script
+    },
+  });
+
+  // and load the index.html of the app.
+  adminWin.loadFile(path.join(__dirname, "dist/dashboard.html"));
 
   // Open the DevTools.
   // adminWin.webContents.openDevTools()
